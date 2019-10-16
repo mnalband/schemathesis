@@ -1,7 +1,9 @@
 from typing import IO, Any, Dict, Optional, Union
-from urllib.request import urlopen
+from urllib.request import Request, urlopen
 
 import yaml
+
+import schemathesis
 
 from .lazy import LazySchema
 from .schemas import BaseSchema, OpenApi30, SwaggerV20
@@ -17,7 +19,7 @@ def from_path(path: PathLike, method: Optional[Filter] = None, endpoint: Optiona
 
 def from_uri(uri: str, method: Optional[Filter] = None, endpoint: Optional[Filter] = None) -> BaseSchema:
     """Load a remote resource and parse to schema instance."""
-    response = urlopen(uri)
+    response = urlopen(Request(uri, headers={"User-Agent": f"schemathesis/{schemathesis.__version__}"}))
     data = response.read()
     return from_file(data, method=method, endpoint=endpoint)
 
