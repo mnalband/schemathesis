@@ -73,6 +73,7 @@ def get_case_strategy(endpoint: Endpoint) -> st.SearchStrategy:
         Case,
         path=st.just(endpoint.path),
         method=st.just(endpoint.method),
+        base_url=st.just(endpoint.base_url),
         path_parameters=from_schema(endpoint.path_parameters),
         headers=from_schema(endpoint.headers),
         cookies=from_schema(endpoint.cookies),
